@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+__author__ = 'hunter'
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired

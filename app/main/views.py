@@ -1,9 +1,13 @@
+# -*- coding: UTF-8 -*-
+__author__ = 'hunter'
 from flask import render_template, session, redirect, url_for, current_app
 from .. import db
-from ..models import User
+from app.models.user import User
 from ..email import send_email
 from . import main
 from .forms import NameForm
+
+from app.util.logger_util import logger
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -26,3 +30,10 @@ def index():
     return render_template('index.html',
                            form=form, name=session.get('name'),
                            known=session.get('known', False))
+
+
+@main.route("/health")
+def health():
+    print(2333)
+    logger.error("23333")
+    return "200"
