@@ -1,9 +1,12 @@
+# -*- coding: UTF-8 -*-
+__author__ = 'hunter'
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-from config import config
+from config import conf
+from logging.config import dictConfig
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -12,10 +15,10 @@ db = SQLAlchemy()
 
 
 def create_app():
-    config_name = "default"
+    # config_name = "default"
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+    app.config.from_object(conf)
+    conf.init_app(app)
 
     bootstrap.init_app(app)
     mail.init_app(app)

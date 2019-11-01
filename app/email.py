@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+__author__ = 'hunter'
 from threading import Thread
 from flask import current_app, render_template
 from flask_mail import Message
