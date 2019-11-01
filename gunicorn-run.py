@@ -1,11 +1,53 @@
 # -*- coding: UTF-8 -*-
 __author__ = 'hunter'
+from argparse import Namespace
+
 import flask
 from gunicorn.app.wsgiapp import WSGIApplication
 from gunicorn.config import Config
 
 from app.util.logger_util import logger
 from app import conf
+
+
+class OsloConfigParser(object):
+    def __init__(self, app_name):
+        self._app_name = app_name
+        # super(OsloConfigParser).__init__()
+
+    def parse_args(self, args=None):
+        name = self._app_name
+        cfg = Namespace()
+        cfg.args = []
+        cfg.config = None
+        # TODO: this is a non-empty list when set environ GUNICORN_CMD_ARGS
+        #       refs: Application.load_config: env_args = parser.parse_args(...)
+        if args:
+            raise NotImplemented("GUNICORN_CMD_ARGS has not been implemented.")
+        if args is not None:
+            return cfg
+        # oslo_log.log.register_options(CONF)
+        # CONF(sys.argv[1:])
+        # oslo_log.log.setup(CONF, name)
+        # LOG.info("loading config")
+        cfg.bind = "{}:{}".format(conf.host, conf.port)
+        cfg.workers = getattr(conf, "workers", 4) or 4
+        # cfg.worker_class = getattr(conf, "worker_class", "gevent") or "gevent"
+        # for k, v in conf:
+        #     setattr(cfg, k, v)
+        if conf.debug:
+            cfg.reload = True
+            cfg.loglevel = "debug"
+        return cfg
+
+
+class StandaloneConfig(Config):
+    def __init__(self, app_name):
+        super(StandaloneConfig, self).__init__()
+        self._app_name = app_name
+
+    def parser(self):
+        return OsloConfigParser(self._app_name)
 
 
 class StandaloneApplication(WSGIApplication):
@@ -16,7 +58,7 @@ class StandaloneApplication(WSGIApplication):
         super(StandaloneApplication, self).__init__()
 
     def load_default_config(self):
-        self.cfg = Config(self._app_name)
+        self.cfg = StandaloneConfig(self._app_name)
 
     def init(self, parser, opts, args):
         app_uri = self._app_uri
