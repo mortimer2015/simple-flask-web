@@ -1,4 +1,6 @@
-from . import db
+# -*- coding: UTF-8 -*-
+__author__ = 'hunter'
+from app import db
 
 
 class Role(db.Model):
