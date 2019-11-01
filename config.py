@@ -7,6 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    description = "默认环境"
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
@@ -29,13 +30,13 @@ class Config:
     SQLALCHEMY_POOL_TIMEOUT = 10
     SQLALCHEMY_POOL_RECYCLE = 7200
 
-
     @staticmethod
     def init_app(app):
         pass
 
 
 class DevelopmentConfig(Config):
+    description = "开发环境"
     DEBUG = True
     debug = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
@@ -43,6 +44,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
+    description = "测试环境"
     TESTING = True
     SQLALCHEMY_DATABASE_URI = "mysql://{username}:{password}@{host}/{database}?charset={charset}".format(
         username="root",
@@ -53,6 +55,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
+    description = "生产环境"
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = "mysql://{username}:{password}@{host}/{database}?charset={charset}".format(
         username="root",
