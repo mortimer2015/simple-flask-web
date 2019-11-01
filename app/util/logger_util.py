@@ -7,7 +7,6 @@ import sys
 import time
 from logging.handlers import TimedRotatingFileHandler
 
-# from wedof_authority.util.cfg_util import CONF
 from config import conf
 
 

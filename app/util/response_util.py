@@ -4,7 +4,7 @@ __author__ = 'hunter'
 import traceback
 from functools import wraps
 from flask import jsonify
-from app.util.log_util import logger
+from app.util.logger_util import logger
 from app.util.exception_util import FlaskException
 
 
