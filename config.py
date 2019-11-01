@@ -25,6 +25,11 @@ class Config:
     port = "8018"
     host = "0.0.0.0"
 
+    SQLALCHEMY_POOL_SIZE = 100
+    SQLALCHEMY_POOL_TIMEOUT = 10
+    SQLALCHEMY_POOL_RECYCLE = 7200
+
+
     @staticmethod
     def init_app(app):
         pass
@@ -39,13 +44,24 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-        'sqlite://'
+    SQLALCHEMY_DATABASE_URI = "mysql://{username}:{password}@{host}/{database}?charset={charset}".format(
+        username="root",
+        password="123",
+        host="{}:{}".format("127.0.0.1", "3306"),
+        database="my-db",
+        charset="utf8mb4")
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SQLALCHEMY_DATABASE_URI = "mysql://{username}:{password}@{host}/{database}?charset={charset}".format(
+        username="root",
+        password="123",
+        host="{}:{}".format("127.0.0.1", "3306"),
+        database="my-db",
+        charset="utf8mb4")
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+    #     'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
 
 config = {
