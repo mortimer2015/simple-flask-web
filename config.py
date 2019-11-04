@@ -7,6 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    app_name = "cmdb-demo"
     description = "默认环境"
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
@@ -29,6 +30,11 @@ class Config:
     SQLALCHEMY_POOL_SIZE = 100
     SQLALCHEMY_POOL_TIMEOUT = 10
     SQLALCHEMY_POOL_RECYCLE = 7200
+
+
+    redis_nodes = [{"host": "127.0.0.1", "port": "6379"}]
+    redis_password = "123"
+    REDIS_MAX_CONNECTIONS = 100
 
     @staticmethod
     def init_app(app):
