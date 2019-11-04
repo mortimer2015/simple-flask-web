@@ -8,6 +8,9 @@ from flask_sqlalchemy import SQLAlchemy
 from config import conf
 from logging.config import dictConfig
 
+import pymysql
+pymysql.install_as_MySQLdb()
+
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
