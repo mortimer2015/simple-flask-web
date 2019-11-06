@@ -95,4 +95,5 @@ www = lambda: StandaloneApplication(
 ).run()
 
 if __name__ == '__main__':
+    print("============当前环境：{}==============".format(conf.description))
     www()
