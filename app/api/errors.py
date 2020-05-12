@@ -16,10 +16,8 @@ def page_not_found(e):
 
 @api.app_errorhandler(500)
 def internal_server_error(e):
-
     logger.error(format_exc())
     ret = Response(status=500)
     ret.message = str(sys.exc_info()[1])
     ret.error_data = format_exc()
-
     return ret

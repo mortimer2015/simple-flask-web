@@ -3,7 +3,7 @@ __author__ = 'hunter'
 
 import traceback
 from functools import wraps
-from flask import jsonify
+from flask import jsonify, Response
 from app.util.logger_util import logger
 from app.util.exception_util import FlaskException
 
@@ -38,3 +38,26 @@ def json_response(func):
         return jsonify(output)
 
     return wrapper
+
+
+def code_handle(ret):
+    if ret.status_code == 404:
+        return jsonify({"code": 404, "data": {}, "message": "Not Found"})
+    if ret.status_code == 500:
+        return jsonify({"code": 500, "data": {}, "message": ret.message})
+
+    output = {"code": 200, "message": 'success', "data": None}
+    if isinstance(ret, (dict, list, str, int)):
+        output['data'] = ret
+    elif isinstance(ret, set):
+        output['data'] = list(ret)
+    elif isinstance(ret, Response):
+        if isinstance(ret.json, (dict, list)):
+            # if ret.json.get("code") in []
+            # data = ret.get_json()
+            output['data'] = ret.get_json()
+        else:
+            output['data'] = ret.data.decode()
+    else:
+        pass
+    return jsonify(output)
