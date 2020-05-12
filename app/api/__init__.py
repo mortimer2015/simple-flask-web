@@ -12,6 +12,11 @@ api = Blueprint('api', __name__)
 
 @api.after_app_request
 def code_handle(ret):
+    if ret.status_code == 404:
+        return jsonify({"code": 404, "data": {}, "message": "Not Found"})
+    if ret.status_code == 500:
+        return jsonify({"code": 500, "data": {}, "message": ret.message})
+
     output = {"code": 200, "message": 'success', "data": None}
     try:
         # ret = func(*args, **kwargs)
@@ -21,6 +26,7 @@ def code_handle(ret):
             output['data'] = list(ret)
         elif isinstance(ret, Response):
             if isinstance(ret.json, (dict, list)):
+                # if ret.json.get("code") in []
                 # data = ret.get_json()
                 output['data'] = ret.get_json()
             else:
@@ -30,15 +36,15 @@ def code_handle(ret):
     except AuthException as e:
         output['code'] = -1
         output['message'] = e.message
-        logger.Error(format_exc())
-        logger.Error("Unexpect Error: {}".format(output))
+        logger.error(format_exc())
+        logger.error("Unexpect Error: {}".format(output))
 
     except Exception as e:
         output['code'] = -1
         output['message'] = str(e)
         # print(format_exc())
-        logger.Error(format_exc())
-        logger.Error("Unexpect Error: {}".format(output))
+        logger.error(format_exc())
+        logger.error("Unexpect Error: {}".format(output))
         # client.captureException()
     return jsonify(output)
 

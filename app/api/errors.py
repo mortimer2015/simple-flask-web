@@ -1,14 +1,25 @@
 # -*- coding: UTF-8 -*-
 __author__ = 'hunter'
-from flask import render_template
+import sys
+from traceback import format_exc
+
+from flask import Response
+
+from app.util.logger_util import logger
 from . import api
 
 
 @api.app_errorhandler(404)
 def page_not_found(e):
-    return {"code": 404, "data": {}, "message": "Not Found"}
+    return Response(status=404)
 
 
 @api.app_errorhandler(500)
 def internal_server_error(e):
-    return {"code": 500, "data": {}, "message": "Internal Error"}
+
+    logger.error(format_exc())
+    ret = Response(status=500)
+    ret.message = str(sys.exc_info()[1])
+    ret.error_data = format_exc()
+
+    return ret

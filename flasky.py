@@ -28,4 +28,4 @@ migrate = Migrate(app, db)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(use_reloader=True, debug=False)

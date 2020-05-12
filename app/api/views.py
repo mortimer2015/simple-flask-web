@@ -28,4 +28,5 @@ def api_jsonify():
 def api_str():
     print(2333)
     logger.error("2333")
+    raise Exception("参数错误11")
     return '666'
