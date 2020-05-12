@@ -21,7 +21,7 @@ def api_dict():
 def api_jsonify():
     print(2333)
     logger.error("2333")
-    return jsonify({})
+    return jsonify([])
 
 
 @api.route("/str")

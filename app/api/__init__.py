@@ -20,9 +20,9 @@ def code_handle(ret):
         elif isinstance(ret, set):
             output['data'] = list(ret)
         elif isinstance(ret, Response):
-            if ret.json:
+            if isinstance(ret.json, (dict, list)):
                 # data = ret.get_json()
-                output['data'] = ret.json
+                output['data'] = ret.get_json()
             else:
                 output['data'] = ret.data.decode()
         else:
