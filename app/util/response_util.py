@@ -43,8 +43,10 @@ def json_response(func):
 def code_handle(ret):
     if ret.status_code == 404:
         return jsonify({"code": 404, "data": {}, "message": "Not Found"})
-    if ret.status_code == 500:
-        return jsonify({"code": 500, "data": {}, "message": ret.message})
+    elif ret.status_code == 401:
+        return ret
+    elif ret.status_code != 200:
+        return jsonify({"code": ret.status_code, "data": {}, "message": ret.message})
 
     output = {"code": 200, "message": 'success', "data": None}
     if isinstance(ret, (dict, list, str, int)):
