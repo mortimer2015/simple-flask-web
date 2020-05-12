@@ -19,3 +19,10 @@ class ParameterException(Exception):
         self.message = message
         self.type = '缺少参数'
 
+
+class AuthException(Exception):
+    def __init__(self, message, *args, **kwargs):
+        super().__init__()
+        self.message = message
+        self.type = '无此权限'
+
