@@ -10,8 +10,22 @@ from .forms import NameForm
 from app.util.logger_util import logger
 
 
-@api.route("/health")
-def health():
+@api.route("/dict")
+def api_dict():
+    print(2333)
+    logger.error("2333")
+    return {}
+
+
+@api.route("/jsonify")
+def api_jsonify():
     print(2333)
     logger.error("2333")
     return jsonify({})
+
+
+@api.route("/str")
+def api_str():
+    print(2333)
+    logger.error("2333")
+    return '666'
