@@ -6,9 +6,9 @@ from . import api
 
 @api.app_errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return {"code": 404, "data": {}, "message": "Not Found"}
 
 
 @api.app_errorhandler(500)
 def internal_server_error(e):
-    return render_template('500.html'), 500
+    return {"code": 500, "data": {}, "message": "Internal Error"}
